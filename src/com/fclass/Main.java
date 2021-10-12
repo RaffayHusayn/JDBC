@@ -13,6 +13,7 @@ public class Main {
         String selectQuery = "select * from software";
 //       String insertQuery = "Insert into `student`.`software` values(5, \"naveed\")";
         String insertPrepared = "Insert into software values(?, ?)";
+        String updatePrepared = "Update software set name = ? where id = ?";
         // step 2b: Register mysql driver
         Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -22,14 +23,17 @@ public class Main {
         //step 4: Creating the statement
         Statement st = con.createStatement();
         PreparedStatement st1 = con.prepareStatement(insertPrepared);
-
+        PreparedStatement st2 = con.prepareStatement(updatePrepared);
         //step 5: execute the query
 //        int rowsAffected = st.executeUpdate(insertQuery);
 //        System.out.println("Total rows affected : " + rowsAffected);
-        st1.setInt(1,7 );
-        st1.setString(2, "Another Qari");
+//        st1.setInt(1,7 );
+//        st1.setString(2, "Another Qari");
 
-        int rowAffectedPrepared = st1.executeUpdate();
+        st2.setString(1, "Another Qari");
+        st2.setInt(2,3 );
+//        int rowAffectedPrepared = st1.executeUpdate();
+        int rowAffectedPrepared = st2.executeUpdate();
         System.out.println("rows affected : " + rowAffectedPrepared);
 
 
