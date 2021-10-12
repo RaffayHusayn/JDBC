@@ -9,7 +9,7 @@ public class Main {
        String url = "jdbc:mysql://localhost:3306/student";
        String uname = "root";
        String pass = "password";
-       String query = "select Name from software where id = 1";
+       String query = "select * from software";
 
 
         // step 2b: Register mysql driver
@@ -24,18 +24,17 @@ public class Main {
         //step 5: execute the query
         ResultSet rs = st.executeQuery(query);
 
+
         //step 6: process the results
-        rs.next(); // to get the pointer to the first value of the output table
-        String name = rs.getString("Name");
+        while(rs.next()){
+            String userData = rs.getInt("ID") + " : " + rs.getString("Name");
+            System.out.println(userData);
+        }
+
 
         //step 7: close the connection
         st.close();
         con.close();
-
-        System.out.println(name);
-
-
-
 
 
     }
