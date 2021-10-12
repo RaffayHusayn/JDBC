@@ -9,8 +9,8 @@ public class Main {
        String url = "jdbc:mysql://localhost:3306/student";
        String uname = "root";
        String pass = "password";
-       String query = "select * from software";
-
+       String selectQuery = "select * from software";
+       String insertQuery = "Insert into `student`.`software` values(5, \"naveed\")";
 
         // step 2b: Register mysql driver
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -22,7 +22,9 @@ public class Main {
         Statement st = con.createStatement();
 
         //step 5: execute the query
-        ResultSet rs = st.executeQuery(query);
+        int rowsAffected = st.executeUpdate(insertQuery);
+        System.out.println("Total rows affected : " + rowsAffected);
+        ResultSet rs = st.executeQuery(selectQuery);
 
 
         //step 6: process the results
