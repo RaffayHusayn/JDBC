@@ -2,26 +2,42 @@ package com.fclass;
 import java.sql.*;
 
 import java.sql.DriverManager;
+import java.util.function.DoubleToIntFunction;
 
 public class JdbcDAO {
 
     public static void main(String[] args){
         StudentDAO dao = new StudentDAO();
-        Student s1 = dao.getStudent(2);
-        System.out.println(s1.sname);
+        dao.establishConnection();
+        Student s1 = dao.getStudent(4);
+        Student s2 = new Student(10,"Raffya");
+
+        dao.insertStudent(s2);
+        System.out.println(s1.getSname());
 
     }
 }
 
 class StudentDAO{
-    Student getStudent(int roll) {
+    Connection con;
+    void establishConnection(){
+
         Student s = new Student();
         String url = "jdbc:mysql://localhost:3306/student";
         String name = "root";
         String password = "password";
+
+        try {
+             con = DriverManager.getConnection(url, name, password);
+        } catch (Exception e) {
+            System.out.println("problem");
+        }
+
+    }
+    Student getStudent(int roll) {
+        Student s = new Student();
         String selectQuery = "Select Name from software where id = "+ roll;
         try {
-            Connection con = DriverManager.getConnection(url, name, password);
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(selectQuery);
             rs.next();
@@ -34,6 +50,24 @@ class StudentDAO{
             System.out.println(e);
         }
         return null;
+
+    }
+    int insertStudent(Student s){
+        String name = s.getSname();
+        int roll = s.getRollno();
+        String insertQuery = "Insert into software values (?, ?)";
+        try {
+
+            PreparedStatement st = con.prepareStatement(insertQuery);
+            st.setInt(1, roll);
+            st.setString(2, name);
+            int rowAffected = st.executeUpdate();
+            return rowAffected;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return 0;
 
     }
 }
