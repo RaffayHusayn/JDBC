@@ -12,8 +12,9 @@ public class JdbcDAO {
         Student s1 = dao.getStudent(4);
         Student s2 = new Student(10,"Raffay");
 
-        int rows = dao.updateStudent(s2);
-        System.out.println(rows);
+//        int rows = dao.updateStudent(s2);
+//        System.out.println(rows);
+        System.out.println(dao.deleteStudent(3));
         System.out.println(s1.getSname());
 
     }
@@ -87,6 +88,22 @@ class StudentDAO{
         }
 
         return 0;
+    }
+
+    int deleteStudent(int rollno){
+        int rollNo = rollno;
+        String deleteQuery = "Delete from software where id = ?";
+        try {
+            PreparedStatement st = con.prepareStatement(deleteQuery);
+            st.setInt(1, rollNo);
+            int rowAffected = st.executeUpdate();
+            return  rowAffected;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return 0;
+
     }
 }
 class Student{
