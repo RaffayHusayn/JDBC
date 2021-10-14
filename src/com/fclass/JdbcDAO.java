@@ -10,9 +10,10 @@ public class JdbcDAO {
         StudentDAO dao = new StudentDAO();
         dao.establishConnection();
         Student s1 = dao.getStudent(4);
-        Student s2 = new Student(10,"Raffya");
+        Student s2 = new Student(10,"Raffay");
 
-        dao.insertStudent(s2);
+        int rows = dao.updateStudent(s2);
+        System.out.println(rows);
         System.out.println(s1.getSname());
 
     }
@@ -69,6 +70,23 @@ class StudentDAO{
 
         return 0;
 
+    }
+    int updateStudent(Student s){
+        String name = s.getSname();
+        int roll = s.getRollno();
+        String updateQuery = "Update software set Name = ? where ID = ?";
+        try{
+            PreparedStatement st = con.prepareStatement(updateQuery);
+            st.setString(1, name);
+            st.setInt(2, roll);
+            int rowAffected = st.executeUpdate();
+            return rowAffected;
+
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
+        return 0;
     }
 }
 class Student{
